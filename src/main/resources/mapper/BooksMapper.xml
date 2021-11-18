@@ -44,6 +44,6 @@
     <select id="queryBookByName" parameterType="java.lang.String" resultType="books">
         select *
         from ssmbuild.books
-        where bookName = #{bookName}
+        where bookName like #{bookName}
     </select>
 </mapper>

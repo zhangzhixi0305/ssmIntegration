@@ -83,7 +83,7 @@ public class BookController {
      * 3.1、修改书籍
      *
      * @param books 要修改的书籍对象
-     * @return
+     * @return 修改书籍的页面
      */
     @RequestMapping("/toUpdate")
     public String toUpdate(Books books) {
@@ -139,7 +139,9 @@ public class BookController {
     @RequestMapping("/queryByName")
     public String queryBookByName(@RequestParam("bookName") String bookName, Model model) {
         List<Books> list = new ArrayList<Books>();
-        Books books = booksService.queryBookByName(bookName);
+        
+        /*这里做字符串拼接可以方式SQL注入的风险*/
+        Books books = booksService.queryBookByName("%" + bookName + "%");
         list.add(books);
 
         /*没有查询到书籍，就回到书籍首页并显示错误信息*/
