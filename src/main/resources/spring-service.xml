@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <!--1、统一管理bean-->
+    <context:component-scan base-package="com.zhixi.service"/>
+
+    <!--2、将所有业务类，注入到bean-->
+    <bean id="booksService" class="com.zhixi.service.BooksServiceImpl">
+        <property name="booksMapper" ref="booksMapper"/>
+    </bean>
+
+    <!--3、声明式事务配置:开启事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--4、aop事务支持-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务切入-->
+    <aop:config>
+        <!--
+            配置切入点表达式:指定哪些包中类， 要使用事务
+            id:切入点表达式的名称，唯一值
+            expression :切入点表达式， 指定哪些类要使用事务， aspectj会创建代理对象
+        -->
+        <aop:pointcut id="exPoint" expression="execution(* com.zhixi.dao.*.*(..))"/>
+        <!--配置增强类-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="exPoint"/>
+    </aop:config>
+
+</beans>

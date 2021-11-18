@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhixi.dao.BooksMapper">
+
+    <!--添加书籍-->
+    <insert id="addBook" parameterType="books">
+        insert into ssmbuild.books (bookName, bookCounts, detail)
+        values (#{bookName}, #{bookCounts}, #{detail})
+    </insert>
+
+    <!--根据id删除书籍-->
+    <delete id="delBook" parameterType="int">
+        delete
+        from ssmbuild.books
+        where bookID = #{bookId}
+    </delete>
+
+    <!--修改书籍-->
+    <update id="updateBook" parameterType="books">
+        update ssmbuild.books
+        set bookName=#{bookName},
+            bookCounts=#{bookCounts},
+            detail = #{detail}
+            /*这里的bookID需要指定，是因为要与修改的jsp给id起的name保持一致*/
+        where bookID = #{bookID}
+    </update>
+
+    <!--查询所有书籍-->
+    <select id="queryBooks" resultType="books">
+        select *
+        from ssmbuild.books;
+    </select>
+
+    <!--根据id查询书籍-->
+    <select id="queryBookById" resultType="books" parameterType="int">
+        select *
+        from ssmbuild.books
+        where bookID = #{bookById};
+    </select>
+
+    <!--根据名字查询书籍-->
+    <select id="queryBookByName" parameterType="java.lang.String" resultType="books">
+        select *
+        from ssmbuild.books
+        where bookName = #{bookName}
+    </select>
+</mapper>
