@@ -20,7 +20,7 @@
         <%--根据id查询书籍--%>
         <form method="post" action="${pageContext.request.contextPath}/books/queryById">
             <input type="text" name="bookById" placeholder="输入id查询书籍">
-            <input type="submit" value="查询"/><span style="color: #ff6659">${errorById}</span>
+            <input type="submit" value="查询"/><span style="font-size:12px;color: #ff6659">${errorById}</span>
         </form>
     </div>
 

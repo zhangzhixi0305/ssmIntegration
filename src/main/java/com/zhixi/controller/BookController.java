@@ -114,10 +114,16 @@ public class BookController {
      */
     @RequestMapping("/queryById")
     // RequestParam是为了设置前端过来的请求与参数名不一致的情况
-    public String queryBookById(@RequestParam("bookById") int id, Model model) {
+    public String queryBookById(@RequestParam("bookById") String id, Model model) {
         List<Books> list = new ArrayList<Books>();
+        if ("".equals(id)) {
+            list = booksService.queryBooks();
+            model.addAttribute("errorById", "请您输入正确的书籍ID！");
+            return "queryAllBookPage";
+        }
+
         // 根据id查询
-        Books books = booksService.queryBookById(id);
+        Books books = booksService.queryBookById(Integer.parseInt(id));
         list.add(books);
 
         if (books == null) {// 没有查询到书籍，就回到书籍首页并显示错误信息
@@ -139,7 +145,13 @@ public class BookController {
     @RequestMapping("/queryByName")
     public String queryBookByName(@RequestParam("bookName") String bookName, Model model) {
         List<Books> list = new ArrayList<Books>();
-        
+        /*如果用户输入的书名是空字符串，返回到所有的书籍页面*/
+        if ("".equals(bookName)) {
+            list = booksService.queryBooks();
+            model.addAttribute("list", list);
+            return "queryAllBookPage";
+        }
+
         /*这里做字符串拼接可以方式SQL注入的风险*/
         Books books = booksService.queryBookByName("%" + bookName + "%");
         list.add(books);
