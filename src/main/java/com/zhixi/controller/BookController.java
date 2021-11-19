@@ -118,7 +118,7 @@ public class BookController {
         List<Books> list = new ArrayList<Books>();
         if ("".equals(id)) {
             list = booksService.queryBooks();
-            list = booksService.queryBooks();
+            model.addAttribute("list", list);
             model.addAttribute("errorById", "请您输入正确的书籍ID！");
             return "queryAllBookPage";
         }
