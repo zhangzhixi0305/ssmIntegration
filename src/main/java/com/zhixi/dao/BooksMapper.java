@@ -49,4 +49,10 @@ public interface BooksMapper {
      * @return 查询到的书籍
      */
     Books queryBookByName(@Param("bookName") String bookName);
+
+    /**
+     * 根据id删除书籍，其实执行的是update
+     * @param id 书籍ID
+     */
+    int updateBookByCount(int id);
 }

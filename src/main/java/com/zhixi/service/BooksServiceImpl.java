@@ -26,7 +26,17 @@ public class BooksServiceImpl implements BooksService {
 
     @Override
     public int delBook(int id) {
-        return booksMapper.delBook(id);
+        int updateCount = 0;
+        /*1.先确定数据库中书籍的数量*/
+        Books books = booksMapper.queryBookById(id);
+        if (books.getBookCounts() <= 0) {
+            booksMapper.delBook(id);
+        } else {
+            /*2.更新书籍数量*/
+            updateCount = updateBookByCount(id);
+        }
+        /*更新成功返回1*/
+        return updateCount;
     }
 
     @Override
@@ -47,5 +57,10 @@ public class BooksServiceImpl implements BooksService {
     @Override
     public Books queryBookByName(String bookName) {
         return booksMapper.queryBookByName(bookName);
+    }
+
+    @Override
+    public int updateBookByCount(int id) {
+        return booksMapper.updateBookByCount(id);
     }
 }

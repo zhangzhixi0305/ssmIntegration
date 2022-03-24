@@ -20,7 +20,7 @@ import java.util.List;
 public class BookController {
 
     /**
-     * controller调dao层
+     * controller调service层
      */
     @Autowired
     @Qualifier("booksService")

@@ -17,6 +17,13 @@
         where bookID = #{bookId}
     </delete>
 
+    <update id="updateBookByCount">
+        update ssmbuild.books
+        set bookCounts = bookCounts - 1
+        where bookID = #{id};
+    </update>
+
+
     <!--修改书籍-->
     <update id="updateBook" parameterType="books">
         update ssmbuild.books
